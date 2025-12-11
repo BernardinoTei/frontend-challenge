@@ -1,7 +1,7 @@
 import { Bell, LayoutDashboardIcon, ListCheckIcon, Settings, User } from 'lucide-react';
 import React, { useState } from 'react';
 
-// Mock API functions
+
 const approveItem = async (itemId) => {
   await new Promise(resolve => setTimeout(resolve, 100));
   return { success: true, itemId };
@@ -12,13 +12,13 @@ const approveAllItems = async (itemIds) => {
   return { success: true, approvedCount: itemIds.length };
 };
 
-// Individual Approval Item Component
+
 const ApprovalItem = ({ item, onApprove }) => {
   const [isApproving, setIsApproving] = useState(false);
   const [status, setStatus] = useState('pending');
 
   const handleApprove = async () => {
-    // BUG: Not preventing multiple clicks - missing return or disabled check
+
     setIsApproving(true);
     setStatus('approving');
 
@@ -111,7 +111,7 @@ const ApprovalItem = ({ item, onApprove }) => {
   );
 };
 
-// PendingApprovals Component
+
 export const PendingApprovals = () => {
   const [items, setItems] = useState([
     { id: 1, title: 'User Registration: john@example.com', status: 'pending' },
@@ -124,7 +124,7 @@ export const PendingApprovals = () => {
   const [apiCallCount, setApiCallCount] = useState(0);
 
   const handleApproveItem = async (itemId) => {
-    // BUG: Not checking if already approved - allows multiple API calls
+ 
     setApiCallCount(prev => prev + 1);
     
     await approveItem(itemId);
@@ -137,8 +137,7 @@ export const PendingApprovals = () => {
   };
 
   const handleApproveAll = async () => {
-    // BUG: Not properly disabling individual buttons during "Approve All"
-    // BUG: Not preventing multiple "Approve All" clicks
+
     setIsApprovingAll(true);
     setApproveAllStatus('approving');
 
@@ -146,7 +145,7 @@ export const PendingApprovals = () => {
     const pendingIds = pendingItems.map(item => item.id);
 
     try {
-      // BUG: Each click increments the count, allowing duplicate calls
+
       setApiCallCount(prev => prev + 1);
       
       await approveAllItems(pendingIds);
@@ -263,7 +262,7 @@ export const PendingApprovals = () => {
   );
 };
 
-// Sidebar Component
+
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Approvals');
   
@@ -302,7 +301,7 @@ const Sidebar = () => {
   );
 };
 
-// TopBar Component
+
 const TopBar = () => {
   return (
     <div data-testid="topbar" className="bg-white border-b border-gray-200 px-6 py-4">
@@ -340,7 +339,7 @@ const TopBar = () => {
   );
 };
 
-// MainPanel Component
+
 const MainPanel = () => {
   return (
     <div data-testid="main-panel" className="flex-1 p-6">
@@ -349,7 +348,7 @@ const MainPanel = () => {
   );
 };
 
-// Main AdminDashboard Component
+
 export const AdminDashboardB = () => {
   return (
     <div data-testid="admin-dashboard" className="flex h-screen bg-gray-50">

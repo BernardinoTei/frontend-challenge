@@ -1,7 +1,7 @@
 import { Bell, LayoutDashboardIcon, Settings, User } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
-// Mock API functions
+
 const fetchUserStats = async () => {
   await new Promise(resolve => setTimeout(resolve, 100));
   return {
@@ -25,7 +25,7 @@ const approveUser = async (userId) => {
   return { success: true, userId };
 };
 
-// UserStats Component - Updates totalUsers
+
 const UserStats = ({ totalUsers, onUpdateTotalUsers }) => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ const UserStats = ({ totalUsers, onUpdateTotalUsers }) => {
         const data = await fetchUserStats();
         setStats(data);
         
-        // BUG: Direct state update without considering concurrent updates
+    
         onUpdateTotalUsers(data.totalUsers);
       } catch (error) {
         console.error('Failed to load stats:', error);
@@ -102,7 +102,7 @@ const UserStats = ({ totalUsers, onUpdateTotalUsers }) => {
   );
 };
 
-// PendingApprovals Component - Also updates totalUsers when approving
+
 const PendingApprovals = ({ totalUsers, onUpdateTotalUsers }) => {
   const [approvals, setApprovals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -133,11 +133,10 @@ const PendingApprovals = ({ totalUsers, onUpdateTotalUsers }) => {
     try {
       await approveUser(approvalId);
       
-      // Remove from pending list
+  
       setApprovals(prev => prev.filter(a => a.id !== approvalId));
       
-      // BUG: Race condition - reading stale totalUsers and incrementing
-      // If UserStats is still loading or updates at the same time, this will overwrite
+
       const newTotal = totalUsers + 1;
       onUpdateTotalUsers(newTotal);
       
@@ -247,13 +246,13 @@ const PendingApprovals = ({ totalUsers, onUpdateTotalUsers }) => {
   );
 };
 
-// MainPanel - Manages shared state with race condition bugs
+
 const MainPanel = () => {
-  // BUG: Both components update this shared state, causing race conditions
+
   const [totalUsers, setTotalUsers] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
 
-  // Track how many times the state was updated (for testing)
+
   const handleUpdateTotalUsers = (newTotal) => {
     setTotalUsers(newTotal);
     setUpdateCount(prev => prev + 1);
@@ -282,7 +281,7 @@ const MainPanel = () => {
   );
 };
 
-// Sidebar Component
+
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Users');
   
@@ -321,7 +320,7 @@ const Sidebar = () => {
   );
 };
 
-// TopBar Component
+
 const TopBar = () => {
   return (
     <div data-testid="topbar" className="bg-white border-b border-gray-200 px-6 py-4">
@@ -359,7 +358,7 @@ const TopBar = () => {
   );
 };
 
-// Main AdminDashboard Component
+
 export const AdminDashboardC = () => {
   return (
     <div data-testid="admin-dashboard" className="flex h-screen bg-gray-50">

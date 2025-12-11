@@ -1,7 +1,7 @@
 import { BarChart, Bell, LayoutDashboardIcon, ListCheckIcon, Settings, User } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
-// Mock API functions
+
 const fetchRecentActivities = async () => {
   await new Promise(resolve => setTimeout(resolve, 200));
   return [
@@ -31,7 +31,7 @@ const fetchUserStats = async () => {
   };
 };
 
-// RecentActivities Component - Has unmount bug
+
 const RecentActivities = () => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,21 +44,21 @@ const RecentActivities = () => {
       
       try {
         const data = await fetchRecentActivities();
-        // BUG: No cleanup check - this will set state after unmount
+
         setActivities(data);
         setError(null);
       } catch (err) {
-        // BUG: Setting state after unmount will cause React warnings
+
         setError(err.message);
       } finally {
-        // BUG: Setting state after unmount
+
         setLoading(false);
       }
     };
 
     loadActivities();
     
-    // BUG: No cleanup function to cancel or prevent state updates after unmount
+
   }, []);
 
   const getActivityIcon = (type) => {
@@ -159,7 +159,7 @@ const RecentActivities = () => {
   );
 };
 
-// PendingApprovals Component - Also has unmount bug
+
 const PendingApprovals = () => {
   const [approvals, setApprovals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -172,7 +172,7 @@ const PendingApprovals = () => {
       
       try {
         const data = await fetchPendingApprovals();
-        // BUG: No cleanup check - will update state after unmount
+
         setApprovals(data);
         setError(null);
       } catch (err) {
@@ -184,7 +184,7 @@ const PendingApprovals = () => {
 
     loadApprovals();
     
-    // BUG: Missing cleanup to handle unmounting during async operation
+
   }, []);
 
   const getApprovalIcon = (type) => {
@@ -263,7 +263,7 @@ const PendingApprovals = () => {
   );
 };
 
-// UserStats Component - Also has unmount bug
+
 const UserStats = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -276,7 +276,7 @@ const UserStats = () => {
       
       try {
         const data = await fetchUserStats();
-        // BUG: State update after unmount
+
         setStats(data);
         setError(null);
       } catch (err) {
@@ -288,7 +288,7 @@ const UserStats = () => {
 
     loadStats();
     
-    // BUG: No cleanup
+
   }, []);
 
   if (loading) {
@@ -369,7 +369,7 @@ const UserStats = () => {
   );
 };
 
-// Tab Navigation Component
+
 const TabNavigation = ({ activeTab, onTabChange }) => {
   const tabs = [
     { id: 'activities', label: 'Recent Activities', icon: <BarChart size={22} /> },
@@ -400,7 +400,7 @@ const TabNavigation = ({ activeTab, onTabChange }) => {
   );
 };
 
-// MainPanel - Switches between components causing unmount
+
 const MainPanel = () => {
   const [activeTab, setActiveTab] = useState('activities');
 
@@ -422,7 +422,7 @@ const MainPanel = () => {
   );
 };
 
-// Sidebar Component
+
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Dashboard');
   
@@ -461,7 +461,7 @@ const Sidebar = () => {
   );
 };
 
-// TopBar Component
+
 const TopBar = () => {
   return (
     <div data-testid="topbar" className="bg-white border-b border-gray-200 px-6 py-4">
@@ -499,7 +499,7 @@ const TopBar = () => {
   );
 };
 
-// Main AdminDashboard Component
+
 export const AdminDashboardD = () => {
   return (
     <div data-testid="admin-dashboard" className="flex h-screen bg-gray-50">
@@ -514,5 +514,5 @@ export const AdminDashboardD = () => {
   );
 };
 
-// Export for testing
+
 export { RecentActivities, PendingApprovals, UserStats, MainPanel, TabNavigation };

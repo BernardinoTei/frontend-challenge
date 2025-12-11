@@ -1,7 +1,7 @@
 import { Bell, LayoutDashboardIcon, ListCheckIcon, Settings, User } from 'lucide-react';
 import React, { useState } from 'react';
 
-// Mock approval data
+
 const initialApprovals = [
   { 
     id: 1, 
@@ -29,13 +29,13 @@ const initialApprovals = [
   }
 ];
 
-// Modal Component for Approval Details
+
 const ApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [clickCount, setClickCount] = useState(0);
 
   const handleApprove = async (e) => {
-    // BUG: Not stopping event propagation - click bubbles to modal backdrop and row
+
     setIsProcessing(true);
     setClickCount(prev => prev + 1);
     
@@ -45,7 +45,7 @@ const ApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
   };
 
   const handleReject = async (e) => {
-    // BUG: Not stopping event propagation
+
     setIsProcessing(true);
     setClickCount(prev => prev + 1);
     
@@ -55,7 +55,7 @@ const ApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
   };
 
   const handleModalContentClick = (e) => {
-    // BUG: Not stopping propagation - clicks inside modal content bubble to backdrop
+
     setClickCount(prev => prev + 1);
   };
 
@@ -81,12 +81,12 @@ const ApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
     <div 
       className="modal-backdrop fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 animate-fadeIn" 
       data-testid="modal-backdrop"
-      onClick={onClose}  // BUG: This fires even when clicking inside modal content
+      onClick={onClose}
     >
       <div 
         className="modal-content bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" 
         data-testid="modal-content"
-        onClick={handleModalContentClick}  // BUG: This bubbles to backdrop
+        onClick={handleModalContentClick} 
       >
         {/* Modal Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-xl">
@@ -215,12 +215,12 @@ const ApprovalModal = ({ approval, onClose, onApprove, onReject }) => {
   );
 };
 
-// Approval Row Component
+
 const ApprovalRow = ({ approval, onClick }) => {
   const [clickCount, setClickCount] = useState(0);
 
   const handleRowClick = (e) => {
-    // BUG: Row click fires even when clicking buttons or links inside
+
     setClickCount(prev => prev + 1);
     onClick(approval);
   };
@@ -247,7 +247,7 @@ const ApprovalRow = ({ approval, onClick }) => {
     <div 
       className="approval-row bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-indigo-300 transition-all cursor-pointer" 
       data-testid={`approval-row-${approval.id}`}
-      onClick={handleRowClick}  // BUG: This catches all clicks, even from children
+      onClick={handleRowClick}
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4 flex-1 min-w-0">
@@ -269,7 +269,6 @@ const ApprovalRow = ({ approval, onClick }) => {
           <button
             data-testid={`quick-approve-${approval.id}`}
             className="quick-approve-btn px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
-            // BUG: No stopPropagation - clicking this also triggers row click
           >
             Quick Approve
           </button>
@@ -278,7 +277,6 @@ const ApprovalRow = ({ approval, onClick }) => {
             href="#details" 
             data-testid={`details-link-${approval.id}`}
             className="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg text-sm font-medium hover:bg-indigo-50 transition-colors"
-            // BUG: Clicking link triggers row click too
           >
             View Details
           </a>
@@ -292,7 +290,6 @@ const ApprovalRow = ({ approval, onClick }) => {
   );
 };
 
-// PendingApprovals Component
 export const PendingApprovals = () => {
   const [approvals, setApprovals] = useState(initialApprovals);
   const [selectedApproval, setSelectedApproval] = useState(null);
@@ -366,7 +363,7 @@ export const PendingApprovals = () => {
   );
 };
 
-// Sidebar Component
+
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Approvals');
   
@@ -405,7 +402,7 @@ const Sidebar = () => {
   );
 };
 
-// TopBar Component
+
 const TopBar = () => {
   return (
     <div data-testid="topbar" className="bg-white border-b border-gray-200 px-6 py-4">
@@ -443,7 +440,7 @@ const TopBar = () => {
   );
 };
 
-// MainPanel Component
+
 const MainPanel = () => {
   return (
     <div data-testid="main-panel" className="flex-1 p-6">
@@ -452,7 +449,7 @@ const MainPanel = () => {
   );
 };
 
-// Main AdminDashboard Component
+
 export const AdminDashboardE = () => {
   return (
     <div data-testid="admin-dashboard" className="flex h-screen bg-gray-50">
@@ -467,5 +464,5 @@ export const AdminDashboardE = () => {
   );
 };
 
-// Export for testing
+
 export { ApprovalModal, ApprovalRow, MainPanel };

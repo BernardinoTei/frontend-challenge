@@ -1,10 +1,10 @@
 import { Bell, LayoutDashboardIcon, Settings, User } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 
-// Mock API functions
+
 const fetchUserStats = async () => {
   await new Promise(resolve => setTimeout(resolve, 100));
-  // Simulating API failure
+
   throw new Error('Failed to fetch user stats');
 };
 
@@ -17,7 +17,7 @@ const fetchRecentActivities = async () => {
   ];
 };
 
-// UserStats Component - Has async fetch that fails
+
 const UserStats = ({ onLoadingChange }) => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ const UserStats = ({ onLoadingChange }) => {
         setError(err.message);
       } finally {
         setLoading(false);
-        // BUG: Not calling onLoadingChange(false) when there's an error
+ 
       }
     };
 
@@ -90,7 +90,7 @@ const UserStats = ({ onLoadingChange }) => {
   );
 };
 
-// RecentActivities Component - Shows wrong state when UserStats fails
+
 const RecentActivities = ({ globalLoading }) => {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -114,7 +114,7 @@ const RecentActivities = ({ globalLoading }) => {
     loadActivities();
   }, []);
 
-  // BUG: Using globalLoading instead of local loading state
+ 
   if (globalLoading) {
     return (
       <div data-testid="activities-loading" className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -186,7 +186,7 @@ const RecentActivities = ({ globalLoading }) => {
   );
 };
 
-// MainPanel - Orchestrates the child components
+
 const MainPanel = () => {
   const [globalLoading, setGlobalLoading] = useState(false);
 
@@ -202,7 +202,7 @@ const MainPanel = () => {
   );
 };
 
-// Sidebar Component
+
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState('Dashboard');
   
@@ -241,7 +241,7 @@ const Sidebar = () => {
   );
 };
 
-// TopBar Component
+
 const TopBar = () => {
   return (
     <div data-testid="topbar" className="bg-white border-b border-gray-200 px-6 py-4">
@@ -279,7 +279,7 @@ const TopBar = () => {
   );
 };
 
-// Main AdminDashboard Component
+
 export const AdminDashboardA = () => {
   return (
     <div data-testid="admin-dashboard" className="flex h-screen bg-gray-50">
